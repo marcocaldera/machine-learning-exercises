@@ -23,10 +23,20 @@
       <find>target_labels</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/esposito/coverage_plots.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
       </list>
     </option>
   </component>
@@ -46,13 +56,8 @@
         <subPane>
           <expand>
             <path>
-              <item name="machine-learning-exam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="machine-learning-exam" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="machine-learning-exam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="machine-learning-exam" type="462c0819:PsiDirectoryNode" />
-              <item name="esposito" type="462c0819:PsiDirectoryNode" />
+              <item name="machine-learning-problems" type="b2602c69:ProjectViewProjectNode" />
+              <item name="machine-learning-problems" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -133,16 +138,17 @@
       <workItem from="1578568690063" duration="8670000" />
       <workItem from="1578827395181" duration="1614000" />
       <workItem from="1578831890296" duration="1293000" />
+      <workItem from="1578854845682" duration="1099000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15432000" />
+    <option name="totallyTimeSpent" value="16531000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1057" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23695421" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20074548" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -172,15 +178,8 @@
     <SUITE FILE_PATH="coverage/machine_learning_exam$coverage_plots.coverage" NAME="coverage_plots Coverage Results" MODIFIED="1578774282002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/esposito" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/classification_iris_knn_aa_19_20.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classification_iris_aa_19_20.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/esposito/coverage_plots.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classification_iris_knn_aa_19_20.ipynb" />
+    <entry file="file://$PROJECT_DIR$/src/classification_iris_aa_19_20.ipynb" />
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/numpy/core/multiarray.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
@@ -188,12 +187,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/esposito/coverage_plots.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="26" column="53" lean-forward="true" selection-start-line="26" selection-start-column="53" selection-end-line="26" selection-end-column="53" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/esposito/coverage_plots.py" />
+    <entry file="file://$PROJECT_DIR$/esposito/coverage_plots.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
   </component>
 </project>
