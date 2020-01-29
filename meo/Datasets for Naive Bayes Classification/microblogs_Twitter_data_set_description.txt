@@ -1,0 +1,15 @@
+The file named "joy_sadness6000.txt" contains the description of the content of a collection of 11981 microblogs (messages) from Twitter.
+Each message belongs to a class (either Joy or Sadness) representing the sentiment that is supposed to be expressed by the words in that message.
+First, in the file, we have the description of the messages of the first class (Joy) and then Sadness.
+There are 5988 messages of Joy and 5994 of Sadness.
+Each line of the file represents a single message.
+The format of each line is a sequence of pairs <wordID, count> followed by the class label, separated by commas.
+An example of a line is:
+38,3,264,1,635,1,2780,1,Joy
+
+where 38 is the identifier of the first word occurring in that message, and 3 is the number of times (frequency count) in
+which that word is present in that message.
+38, 264, 635, 2780 are the identifiers of the words and 3, 1, 1, 1 are the respective frequencies in that message.
+
+classLabel can be either the string Joy or Sadness.
+
