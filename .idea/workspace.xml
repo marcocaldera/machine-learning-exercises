@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05151dae-bf1b-44ff-867c-98b5e09f92f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/esposito/least_squares.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/esposito/svm.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/Datasets/3-clusters.csv" beforeDir="false" afterPath="$PROJECT_DIR$/meo/02-Distance Model/Datasets/3-clusters.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/Datasets/CURE-complete.csv" beforeDir="false" afterPath="$PROJECT_DIR$/meo/02-Distance Model/Datasets/CURE-complete.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/Datasets/dataset-DBSCAN.csv" beforeDir="false" afterPath="$PROJECT_DIR$/meo/02-Distance Model/Datasets/dataset-DBSCAN.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/classification_iris_aa_19_20.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/01-Tree/classification_iris_aa_19_20.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/classification_iris_knn_aa_19_20.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/02-Distance Model/classification_iris_knn_aa_19_20.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/clustering-copy_for_students_aa_19_20.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/02-Distance Model/clustering-copy_for_students_aa_19_20.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/tree_lab.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/01-Tree/tree_lab.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/esposito/coverage_plots.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/esposito/coverage_plots.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meo/01-Tree/tree_lab.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/01-Tree/tree_lab.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meo/Datasets for Naive Bayes Classification/joy_sadness6000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meo/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meo/classification_twitter_emotions_loading_data.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/classification_twitter_emotions_loading_data.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +16,22 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="492">
+              <caret line="11959" column="67" lean-forward="true" selection-start-line="11959" selection-start-column="67" selection-end-line="11959" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -32,6 +43,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>target_labels</find>
+      <find>11288</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -64,7 +76,13 @@
             <path>
               <item name="machine-learning-problems" type="b2602c69:ProjectViewProjectNode" />
               <item name="machine-learning-problems" type="462c0819:PsiDirectoryNode" />
-              <item name="esposito" type="462c0819:PsiDirectoryNode" />
+              <item name="meo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="machine-learning-problems" type="b2602c69:ProjectViewProjectNode" />
+              <item name="machine-learning-problems" type="462c0819:PsiDirectoryNode" />
+              <item name="meo" type="462c0819:PsiDirectoryNode" />
+              <item name="03-Probabilistic Model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -83,11 +101,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/meo/03-Probabilistic Model" />
       <recent name="$PROJECT_DIR$/meo/01-Tree" />
       <recent name="$PROJECT_DIR$/meo/02-Distance Model" />
       <recent name="$PROJECT_DIR$/esposito" />
       <recent name="$PROJECT_DIR$/meo" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -172,16 +190,18 @@
       <workItem from="1581265305354" duration="2475000" />
       <workItem from="1581335776204" duration="25000" />
       <workItem from="1581357698729" duration="745000" />
+      <workItem from="1581438846747" duration="3133000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32939000" />
+    <option name="totallyTimeSpent" value="36072000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1057" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33919063" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.342918" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -234,8 +254,18 @@
       <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/meo/classification_iris_knn_aa_19_20.ipynb" />
-    <entry file="file://$PROJECT_DIR$/meo/classification_twitter_emotions_loading_data.ipynb">
+    <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/classification_twitter_emotions_loading_data.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="11959" column="67" lean-forward="true" selection-start-line="11959" selection-start-column="67" selection-end-line="11959" selection-end-column="67" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
