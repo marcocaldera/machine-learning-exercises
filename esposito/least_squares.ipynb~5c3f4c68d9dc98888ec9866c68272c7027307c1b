@@ -1,0 +1,543 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Experimenting with least squares and its variants"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%matplotlib inline\n",
+    "\n",
+    "from sklearn import datasets\n",
+    "from scipy.optimize import fmin_bfgs\n",
+    "from sklearn.linear_model import LinearRegression\n",
+    "import numpy as np\n",
+    "from numpy.linalg import norm\n",
+    "from numpy.linalg import inv\n",
+    "from matplotlib import pyplot as plt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Data preparation"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "boston = datasets.load_boston()\n",
+    "data = np.array(boston.data)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The boston dataset is one of the standard regression problems used to experiment with learning algorithms. Below you can find the dataset description"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Boston House Prices dataset\n",
+      "===========================\n",
+      "\n",
+      "Notes\n",
+      "------\n",
+      "Data Set Characteristics:  \n",
+      "\n",
+      "    :Number of Instances: 506 \n",
+      "\n",
+      "    :Number of Attributes: 13 numeric/categorical predictive\n",
+      "    \n",
+      "    :Median Value (attribute 14) is usually the target\n",
+      "\n",
+      "    :Attribute Information (in order):\n",
+      "        - CRIM     per capita crime rate by town\n",
+      "        - ZN       proportion of residential land zoned for lots over 25,000 sq.ft.\n",
+      "        - INDUS    proportion of non-retail business acres per town\n",
+      "        - CHAS     Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)\n",
+      "        - NOX      nitric oxides concentration (parts per 10 million)\n",
+      "        - RM       average number of rooms per dwelling\n",
+      "        - AGE      proportion of owner-occupied units built prior to 1940\n",
+      "        - DIS      weighted distances to five Boston employment centres\n",
+      "        - RAD      index of accessibility to radial highways\n",
+      "        - TAX      full-value property-tax rate per $10,000\n",
+      "        - PTRATIO  pupil-teacher ratio by town\n",
+      "        - B        1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town\n",
+      "        - LSTAT    % lower status of the population\n",
+      "        - MEDV     Median value of owner-occupied homes in $1000's\n",
+      "\n",
+      "    :Missing Attribute Values: None\n",
+      "\n",
+      "    :Creator: Harrison, D. and Rubinfeld, D.L.\n",
+      "\n",
+      "This is a copy of UCI ML housing dataset.\n",
+      "http://archive.ics.uci.edu/ml/datasets/Housing\n",
+      "\n",
+      "\n",
+      "This dataset was taken from the StatLib library which is maintained at Carnegie Mellon University.\n",
+      "\n",
+      "The Boston house-price data of Harrison, D. and Rubinfeld, D.L. 'Hedonic\n",
+      "prices and the demand for clean air', J. Environ. Economics & Management,\n",
+      "vol.5, 81-102, 1978.   Used in Belsley, Kuh & Welsch, 'Regression diagnostics\n",
+      "...', Wiley, 1980.   N.B. Various transformations are used in the table on\n",
+      "pages 244-261 of the latter.\n",
+      "\n",
+      "The Boston house-price data has been used in many machine learning papers that address regression\n",
+      "problems.   \n",
+      "     \n",
+      "**References**\n",
+      "\n",
+      "   - Belsley, Kuh & Welsch, 'Regression diagnostics: Identifying Influential Data and Sources of Collinearity', Wiley, 1980. 244-261.\n",
+      "   - Quinlan,R. (1993). Combining Instance-Based and Model-Based Learning. In Proceedings on the Tenth International Conference of Machine Learning, 236-243, University of Massachusetts, Amherst. Morgan Kaufmann.\n",
+      "   - many more! (see http://archive.ics.uci.edu/ml/datasets/Housing)\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(boston.DESCR)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "First step to apply the formulae we learnt during the lectures is to rewrite the dataset in homogeneous coordinates (i.e., we append a column of 1 to the matrix containing the examples):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t = np.ones(len(data)).reshape(len(data),1)\n",
+    "data = np.append(data, t, 1)\n",
+    "target = np.array(boston.target)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We now divide the data into a training set $X$ and a test set $X_\\textrm{test}$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "X,y = data[0:400,:], target[0:400]\n",
+    "X_test, y_test = data[400:,:], target[400:]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exercise"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "1. Calculate the least square solution (to the regression problem outlined above) and evaluate its performances on the training set and on the test set.\n",
+    "1. Calculate the ridge regression solution (set lambda to 0.01) and evaluate its performances on the training set and on test set.\n",
+    "1. Calculate the lasso regression solution and evaluate its performances on the training set and on the test set."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Notes"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "- Here it follows a list of functions you may want to use (the required packages are already imported at the beginning of this notebook) along with a very brief explanation of their purpose (`help(nomefun)` will provide you more information about function `nomefun`):\n",
+    "    - `transpose`: matrix transposition (e.g., `transpose(X)`)\n",
+    "    - `dot`: matrix multiplication (e.g., `X.dot(X2)`) \n",
+    "    - `inv`: matrix inversion (e.g., `inv(X)`)\n",
+    "- to solve the lasso problem you will need to perform a numerical minimization of the associated loss function (as you know, a closed form solution does not exist). There are many numerical optimization algorithms available in the scipy package. My suggestion is to use `fmin_bfgs`. Here it follows an example of how to use it:\n",
+    "    ```python\n",
+    "        def f(w):\n",
+    "            return w[0]**2 + w[1]**2 + w[0] + w[1]\n",
+    "        \n",
+    "        w = fmin_bfgs(f, [0,0])\n",
+    "    ```\n",
+    "    note that the function may (and should) reference your data variables (i.e., $X$ and $y$).\n",
+    "- to evaluate the performances of your solutions use the $S$ statistic:\n",
+    "    $$\n",
+    "        S =  \\sqrt{ \\frac{1}{n} \\sum_{i=1}^n (y_i' - y_i)^2 }\n",
+    "    $$\n",
+    "    where $y'_i$ is your model prediction for the i-th example, and $n$ is the number of examples."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "106\n"
+     ]
+    },
+    {
+     "ename": "ValueError",
+     "evalue": "x and y must be the same size",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mValueError\u001b[0m                                Traceback (most recent call last)",
+      "\u001b[1;32m<ipython-input-53-e69f9730c455>\u001b[0m in \u001b[0;36m<module>\u001b[1;34m()\u001b[0m\n\u001b[0;32m      4\u001b[0m \u001b[0mreg\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mX\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0my\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      5\u001b[0m \u001b[0mpred_Y\u001b[0m \u001b[1;33m=\u001b[0m \u001b[0mreg\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mpredict\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mX_test\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m----> 6\u001b[1;33m \u001b[0mplt\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mscatter\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mX_test\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0my_test\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mcolor\u001b[0m\u001b[1;33m=\u001b[0m\u001b[1;34m'black'\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m      7\u001b[0m \u001b[0mplt\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mX_test\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mpred_Y\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mcolor\u001b[0m\u001b[1;33m=\u001b[0m\u001b[1;34m'blue'\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mlinewidth\u001b[0m\u001b[1;33m=\u001b[0m\u001b[1;36m3\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      8\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\Anaconda3\\lib\\site-packages\\matplotlib\\pyplot.py\u001b[0m in \u001b[0;36mscatter\u001b[1;34m(x, y, s, c, marker, cmap, norm, vmin, vmax, alpha, linewidths, verts, edgecolors, hold, data, **kwargs)\u001b[0m\n\u001b[0;32m   3468\u001b[0m                          \u001b[0mvmin\u001b[0m\u001b[1;33m=\u001b[0m\u001b[0mvmin\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mvmax\u001b[0m\u001b[1;33m=\u001b[0m\u001b[0mvmax\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0malpha\u001b[0m\u001b[1;33m=\u001b[0m\u001b[0malpha\u001b[0m\u001b[1;33m,\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   3469\u001b[0m                          \u001b[0mlinewidths\u001b[0m\u001b[1;33m=\u001b[0m\u001b[0mlinewidths\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mverts\u001b[0m\u001b[1;33m=\u001b[0m\u001b[0mverts\u001b[0m\u001b[1;33m,\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m-> 3470\u001b[1;33m                          edgecolors=edgecolors, data=data, **kwargs)\n\u001b[0m\u001b[0;32m   3471\u001b[0m     \u001b[1;32mfinally\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   3472\u001b[0m         \u001b[0max\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0m_hold\u001b[0m \u001b[1;33m=\u001b[0m \u001b[0mwashold\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;32m~\\Anaconda3\\lib\\site-packages\\matplotlib\\__init__.py\u001b[0m in \u001b[0;36minner\u001b[1;34m(ax, *args, **kwargs)\u001b[0m\n\u001b[0;32m   1853\u001b[0m                         \u001b[1;34m\"the Matplotlib list!)\"\u001b[0m \u001b[1;33m%\u001b[0m \u001b[1;33m(\u001b[0m\u001b[0mlabel_namer\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mfunc\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0m__name__\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m,\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   1854\u001b[0m                         RuntimeWarning, stacklevel=2)\n\u001b[1;32m-> 1855\u001b[1;33m             \u001b[1;32mreturn\u001b[0m \u001b[0mfunc\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0max\u001b[0m\u001b[1;33m,\u001b[0m \u001b[1;33m*\u001b[0m\u001b[0margs\u001b[0m\u001b[1;33m,\u001b[0m \u001b[1;33m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m   1856\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   1857\u001b[0m         inner.__doc__ = _add_data_doc(inner.__doc__,\n",
+      "\u001b[1;32m~\\Anaconda3\\lib\\site-packages\\matplotlib\\axes\\_axes.py\u001b[0m in \u001b[0;36mscatter\u001b[1;34m(self, x, y, s, c, marker, cmap, norm, vmin, vmax, alpha, linewidths, verts, edgecolors, **kwargs)\u001b[0m\n\u001b[0;32m   4241\u001b[0m         \u001b[0my\u001b[0m \u001b[1;33m=\u001b[0m \u001b[0mnp\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mma\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mravel\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0my\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   4242\u001b[0m         \u001b[1;32mif\u001b[0m \u001b[0mx\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0msize\u001b[0m \u001b[1;33m!=\u001b[0m \u001b[0my\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0msize\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m-> 4243\u001b[1;33m             \u001b[1;32mraise\u001b[0m \u001b[0mValueError\u001b[0m\u001b[1;33m(\u001b[0m\u001b[1;34m\"x and y must be the same size\"\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m   4244\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   4245\u001b[0m         \u001b[1;32mif\u001b[0m \u001b[0ms\u001b[0m \u001b[1;32mis\u001b[0m \u001b[1;32mNone\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
+      "\u001b[1;31mValueError\u001b[0m: x and y must be the same size"
+     ]
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from sklearn import linear_model\n",
+    "reg = linear_model.LinearRegression()\n",
+    "print(len(y_test))\n",
+    "reg.fit(X, y)\n",
+    "pred_Y = reg.predict(X_test)\n",
+    "plt.scatter(X_test, y_test, color='black')\n",
+    "plt.plot(X_test, pred_Y, color='blue', linewidth=3)\n",
+    "\n",
+    "plt.xticks(())\n",
+    "plt.yticks(())\n",
+    "\n",
+    "plt.show()\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def homogeneous(x):\n",
+    "    \"\"\"\n",
+    "    Helper function that simply adds a column of ones to the given matrix/column vector.\n",
+    "    return: matrix with shape (x_rows, x_cols + 1)\n",
+    "    \"\"\"\n",
+    "    t = np.ones((len(x), 1))\n",
+    "    return np.hstack((x, t))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def least_squares(x,y):\n",
+    "    \"\"\"\n",
+    "    Computes the least squares solution to obtain the best estimate of the weights w\n",
+    "    that best approximate the target values y.\n",
+    "    x (array-like): column matrix where columns represent the features and the rows are the instances\n",
+    "    y (array-like): vector of target values for each example ('x[0] has expected solution y[0]')\n",
+    "    return: vector of size (num_features,) representing the hyperplane coefficients.\n",
+    "    \"\"\"\n",
+    "    X = homogeneous(x)\n",
+    "    XTXinv = np.dot( inv(np.dot(X.T,X)), X.T)\n",
+    "    return np.dot(XTXinv, y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def s_stat(actual, predicted):\n",
+    "    \"\"\"\n",
+    "    Calculates the S statistic error (square root of the mean squared error).\n",
+    "    actual   (array-like): vector of actual values\n",
+    "    predicted(array-like): vector of predicted values, must have the same size of 'actual'\n",
+    "    return: real number indicating the S statistic\n",
+    "    \"\"\"\n",
+    "    return np.sqrt(((predicted - actual)**2).mean())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "S statistic: 5.0138040916235465\n"
+     ]
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "# area for the gaussian multivariate distribution\n",
+    "xx = np.array([0, 50])\n",
+    "yy = np.array([0, 50])\n",
+    "means = [xx.mean(), yy.mean()]  \n",
+    "stds = [xx.std()/2, yy.std()/2]\n",
+    "\n",
+    "# calculating a simple covariance matrix\n",
+    "# correlation: 1 => points on a strainght line, 0 => points in a circle\n",
+    "corr = 0.8 \n",
+    "covs = [[stds[0]**2, stds[0]*stds[1]*corr], [stds[0]*stds[1]*corr,stds[1]**2]] \n",
+    "\n",
+    "# sampling 20 random points from the given gaussian (seed just to generate the same result)\n",
+    "np.random.seed(40)\n",
+    "m = np.random.multivariate_normal(means, covs, 20).T\n",
+    "\n",
+    "# Calculating the line coefficients\n",
+    "w = least_squares(m[0,np.newaxis].T, m[1])\n",
+    "\n",
+    "# plotting the scattered points and the linear estimate\n",
+    "ys = w[0]*m[0] + w[1]\n",
+    "plt.scatter(m[0], m[1], c='black')\n",
+    "plt.plot(m[0], ys)\n",
+    "\n",
+    "#S statistic\n",
+    "print(\"S statistic:\", s_stat(m[1], ys))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Modyfing the sets into homogeneous coordinates in order to correctly compute the dot product.\n",
+    "X1_train = homogeneous(X)\n",
+    "X1_test = homogeneous(X_test)\n",
+    "\n",
+    "# Calculating the coefficients w (C + d) and predicting the values on both sets.\n",
+    "w = least_squares(X,y)\n",
+    "y_train_pred = np.dot(X1_train,w)\n",
+    "y_test_pred = np.dot(X1_test,w)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Least squares solution:\n",
+      "--------------------------\n",
+      "S statistic (train): \t 42242.61291734747\n",
+      "S statistic (test) : \t 27173.234541725964\n",
+      "\n",
+      "Scikit LinearRegression:\n",
+      "--------------------------\n",
+      "S statistic (train): \t 4.722840838326382\n",
+      "S statistic (test) : \t 6.177729246514691\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Creating a new regressor, fitting it on the same data\n",
+    "scikit_model = LinearRegression()\n",
+    "scikit_model = scikit_model.fit(X,y)\n",
+    "\n",
+    "# Generating the predictions for the same sets\n",
+    "y_train_scikit = scikit_model.predict(X)\n",
+    "y_test_scikit = scikit_model.predict(X_test)\n",
+    "\n",
+    "#Printing the results, expecting a match\n",
+    "print(\"\\nLeast squares solution:\")\n",
+    "print(\"--------------------------\")\n",
+    "print(\"S statistic (train): \\t\",s_stat(y, y_train_pred))\n",
+    "print(\"S statistic (test) : \\t\",s_stat(y_test, y_test_pred))\n",
+    "print(\"\\nScikit LinearRegression:\")\n",
+    "print(\"--------------------------\")\n",
+    "print(\"S statistic (train): \\t\",s_stat(y, y_train_scikit))\n",
+    "print(\"S statistic (test) : \\t\",s_stat(y_test, y_test_scikit))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def ridge_regression(x,y,l=0.01):\n",
+    "    \"\"\"\n",
+    "    Computes the ridge regression solution to generate the best estimate of the vector w\n",
+    "    containing the coefficients on the hyperplane.\n",
+    "    x (array-like): column matrix where columns represent the features and the rows are the instances\n",
+    "    y (array-like): vector of target values for each example ('x[0] has expected solution y[0]')\n",
+    "    return: vector of size (num_features,) representing the hyperplane coefficients.\n",
+    "    \"\"\"\n",
+    "    X = homogeneous(x)\n",
+    "    XTX = np.dot(X.T, X)\n",
+    "    lambdaI = np.eye(XTX.shape[0]) * l\n",
+    "    inverse = inv(XTX - lambdaI)\n",
+    "    return inverse.dot(X.T).dot(y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Ridge Regression solution:\n",
+      "--------------------------\n",
+      "S statistic (train): \t 4.7228635756189465\n",
+      "S statistic (test) : \t 6.18739767490431\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Modyfing the sets into homogeneous coordinates in order to correctly compute the dot product.\n",
+    "X1_train = homogeneous(X)\n",
+    "X1_test = homogeneous(X_test)\n",
+    "\n",
+    "# Calculating the coefficients w (C + d) with ridge regression and predicting the values on both sets.\n",
+    "w = ridge_regression(X,y)\n",
+    "y_train_pred = np.dot(X1_train,w)\n",
+    "y_test_pred = np.dot(X1_test,w)\n",
+    "\n",
+    "print(\"\\nRidge Regression solution:\")\n",
+    "print(\"--------------------------\")\n",
+    "print(\"S statistic (train): \\t\",s_stat(y, y_train_pred))\n",
+    "print(\"S statistic (test) : \\t\",s_stat(y_test, y_test_pred))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def lasso_regression(w, X, y, l):\n",
+    "    \"\"\"\n",
+    "    Lasso regression function used by a minimizing procedure (not one shot like the previous methods).\n",
+    "    w (array-like) : shape (n_features), the only variable, weights/coefficients that need to be minimized\n",
+    "    X (array-like) : shape(n_inst, n_features) extra parameter corresponding to the training data\n",
+    "    y (array-like) : shape(n_instances) extra param containing the actual values\n",
+    "    l (float)      : lambda value (0.01)\n",
+    "    \"\"\"\n",
+    "    yXw = (y - X.dot(w))\n",
+    "    return yXw.T.dot(yXw) + l*norm(w,1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Warning: Desired error not necessarily achieved due to precision loss.\n",
+      "         Current function value: 8922.627021\n",
+      "         Iterations: 19\n",
+      "         Function evaluations: 811\n",
+      "         Gradient evaluations: 47\n",
+      "\n",
+      "Lasso Regression solution:\n",
+      "--------------------------\n",
+      "S statistic (train): \t 4.722840863830315\n",
+      "S statistic (test) : \t 6.177489042249539\n"
+     ]
+    }
+   ],
+   "source": [
+    "init_guess = np.zeros((X1_train.shape[1]))\n",
+    "w = fmin_bfgs(lasso_regression, init_guess, args=(X1_train, y, 0.01))\n",
+    "y_train_pred = np.dot(X1_train,w)\n",
+    "y_test_pred = np.dot(X1_test,w)\n",
+    "\n",
+    "print(\"\\nLasso Regression solution:\")\n",
+    "print(\"--------------------------\")\n",
+    "print(\"S statistic (train): \\t\",s_stat(y, y_train_pred))\n",
+    "print(\"S statistic (test) : \\t\",s_stat(y_test, y_test_pred))"
+   ]
+  }
+ ],
+ "metadata": {
+  "anaconda-cloud": {},
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}
