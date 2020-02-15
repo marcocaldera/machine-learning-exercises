@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05151dae-bf1b-44ff-867c-98b5e09f92f7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/esposito/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/esposito/coverage_plots.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/esposito/coverage_plots.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/01-Tree/tree_lab.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/01-Tree/tree_lab.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/Datasets for Naive Bayes Classification/joy_sadness6000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meo/classification_twitter_emotions_loading_data.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/classification_twitter_emotions_loading_data.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/esposito/AdaBoost.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/esposito/AdaBoost.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/esposito/least_squares.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/esposito/least_squares.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/esposito/svm.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/esposito/svm.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meo/03-Probabilistic Model/classification_twitter_emotions_loading_data.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/meo/03-Probabilistic Model/classification_twitter_emotions_loading_data.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,19 +16,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt">
+        <entry file="file://$PROJECT_DIR$/esposito/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="11959" column="67" lean-forward="true" selection-start-line="11959" selection-start-column="67" selection-end-line="11959" selection-end-column="67" />
+            <state relative-caret-position="195">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -53,6 +51,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/esposito/coverage_plots.py" />
+        <option value="$PROJECT_DIR$/esposito/utils.py" />
       </list>
     </option>
   </component>
@@ -76,13 +75,12 @@
             <path>
               <item name="machine-learning-problems" type="b2602c69:ProjectViewProjectNode" />
               <item name="machine-learning-problems" type="462c0819:PsiDirectoryNode" />
-              <item name="meo" type="462c0819:PsiDirectoryNode" />
+              <item name="esposito" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="machine-learning-problems" type="b2602c69:ProjectViewProjectNode" />
               <item name="machine-learning-problems" type="462c0819:PsiDirectoryNode" />
               <item name="meo" type="462c0819:PsiDirectoryNode" />
-              <item name="03-Probabilistic Model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -101,10 +99,10 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/esposito" />
       <recent name="$PROJECT_DIR$/meo/03-Probabilistic Model" />
       <recent name="$PROJECT_DIR$/meo/01-Tree" />
       <recent name="$PROJECT_DIR$/meo/02-Distance Model" />
-      <recent name="$PROJECT_DIR$/esposito" />
       <recent name="$PROJECT_DIR$/meo" />
     </key>
   </component>
@@ -191,17 +189,19 @@
       <workItem from="1581335776204" duration="25000" />
       <workItem from="1581357698729" duration="745000" />
       <workItem from="1581438846747" duration="3133000" />
+      <workItem from="1581631508383" duration="2158000" />
+      <workItem from="1581676473221" duration="1137000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36072000" />
+    <option name="totallyTimeSpent" value="39367000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.342918" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.35037273" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -244,9 +244,6 @@
     <entry file="file://$PROJECT_DIR$/esposito/coverage_plots.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/esposito/least_squares.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/meo/02-Distance Model/clustering-copy_for_students_aa_19_20.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
@@ -257,13 +254,26 @@
     <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/classification_twitter_emotions_loading_data.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="11942" column="48" lean-forward="true" selection-start-line="11942" selection-start-column="48" selection-end-line="11942" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/microblogs_Twitter_data_set_description.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/meo/03-Probabilistic Model/Datasets for Naive Bayes Classification/joy_sadness6000.txt">
+    <entry file="file://$PROJECT_DIR$/esposito/least_squares.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/esposito/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="11959" column="67" lean-forward="true" selection-start-line="11959" selection-start-column="67" selection-end-line="11959" selection-end-column="67" />
+        <state relative-caret-position="195">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
