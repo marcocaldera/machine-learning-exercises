@@ -1,1 +1,2 @@
-# machine-learning-problems
+# Machine learning demo exercises
+Machine learning exercises.
